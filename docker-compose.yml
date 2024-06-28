@@ -1,0 +1,26 @@
+
+
+services:
+  web:
+    build: .
+    ports:
+      - "9000:80"
+    networks:
+      - my_network
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: trmsci
+    ports:
+      - "3300:3306"
+    networks:
+      - my_network
+    volumes:
+      - ./trmsci.sql:/docker-entrypoint-initdb.d/trmsci.sql
+networks:
+  my_network:
+    driver: bridge
